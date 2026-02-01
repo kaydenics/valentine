@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <title>Valentine?</title>
@@ -11,8 +11,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: "Hiragino Maru Gothic ProN", "Arial Rounded MT Bold", Arial, sans-serif;
+      background: linear-gradient(135deg, #ffb6c1, #ffe4e1);
       overflow: hidden;
     }
 
@@ -20,53 +20,55 @@
       font-size: 3rem;
       color: white;
       margin-bottom: 40px;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+      text-shadow: 2px 2px 10px rgba(255, 105, 135, 0.6);
       z-index: 2;
     }
 
     .buttons {
       position: relative;
-      width: 300px;
-      height: 200px;
+      width: 320px;
+      height: 220px;
       z-index: 2;
     }
 
     button {
-      padding: 15px 30px;
+      padding: 15px 35px;
       font-size: 1.2rem;
       border: none;
-      border-radius: 30px;
+      border-radius: 40px;
       cursor: pointer;
       position: absolute;
-      transition: transform 0.2s;
+      transition: transform 0.25s ease;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
     }
 
     #yes {
-      background-color: #ff4d6d;
+      background: linear-gradient(135deg, #ff4d6d, #ff758f);
       color: white;
       left: 40px;
-      top: 80px;
+      top: 90px;
     }
 
     #no {
       background-color: white;
       color: #ff4d6d;
-      left: 160px;
-      top: 80px;
+      left: 180px;
+      top: 90px;
     }
 
     /* falling hearts */
     .heart {
       position: fixed;
       top: -20px;
-      font-size: 24px;
+      font-size: 22px;
       animation: fall linear forwards;
       pointer-events: none;
+      opacity: 0.9;
     }
 
     @keyframes fall {
       to {
-        transform: translateY(110vh);
+        transform: translateY(110vh) rotate(360deg);
         opacity: 0;
       }
     }
@@ -87,7 +89,7 @@
 
     let yesScale = 1;
 
-    // Noが逃げる ＋ Yesが大きくなる
+    // Noが逃げる + Yesが大きくなる
     noBtn.addEventListener("mouseover", () => {
       const maxX = container.clientWidth - noBtn.offsetWidth;
       const maxY = container.clientHeight - noBtn.offsetHeight;
@@ -99,31 +101,43 @@
       yesBtn.style.transform = `scale(${yesScale})`;
     });
 
-    // Yesを押したら成功画面
+    // Yesクリック後の画面
     yesBtn.addEventListener("click", () => {
       document.body.innerHTML = `
-        <h1>Yay!! 💕🥰</h1>
-        <p style="font-size:1.5rem;color:white;">
-          Best Valentine ever 💘
+        <h1 style="font-size:3.2rem;">ありがとうございます♪ 💕</h1>
+        <p style="
+          font-size:1.6rem;
+          color:white;
+          margin-top:10px;
+          text-shadow: 1px 1px 8px rgba(255,105,135,0.6);
+        ">
+          すごく嬉しいです 🥰
         </p>
       `;
+      startHeartRain();
     });
 
     // ハートを降らせる
     function createHeart() {
       const heart = document.createElement("div");
       heart.className = "heart";
-      heart.innerText = "💖";
+      heart.innerText = Math.random() > 0.5 ? "💖" : "💗";
 
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+      heart.style.fontSize = 18 + Math.random() * 18 + "px";
 
       document.body.appendChild(heart);
 
       setTimeout(() => heart.remove(), 5000);
     }
 
-    setInterval(createHeart, 300);
+    function startHeartRain() {
+      setInterval(createHeart, 200);
+    }
+
+    // 初期状態でも少しだけ降らせる
+    setInterval(createHeart, 400);
   </script>
 </body>
 </html>
