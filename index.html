@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Valentine?</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: white;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .buttons {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      z-index: 2;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      position: absolute;
+      transition: transform 0.2s;
+    }
+
+    #yes {
+      background-color: #ff4d6d;
+      color: white;
+      left: 40px;
+      top: 80px;
+    }
+
+    #no {
+      background-color: white;
+      color: #ff4d6d;
+      left: 160px;
+      top: 80px;
+    }
+
+    /* falling hearts */
+    .heart {
+      position: fixed;
+      top: -20px;
+      font-size: 24px;
+      animation: fall linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Will you be my Valentine? 💖</h1>
+
+  <div class="buttons">
+    <button id="yes">Yes ❤️</button>
+    <button id="no">No 💔</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const container = document.querySelector(".buttons");
+
+    let yesScale = 1;
+
+    // Noが逃げる ＋ Yesが大きくなる
+    noBtn.addEventListener("mouseover", () => {
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+
+      yesScale += 0.15;
+      yesBtn.style.transform = `scale(${yesScale})`;
+    });
+
+    // Yesを押したら成功画面
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <h1>Yay!! 💕🥰</h1>
+        <p style="font-size:1.5rem;color:white;">
+          Best Valentine ever 💘
+        </p>
+      `;
+    });
+
+    // ハートを降らせる
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💖";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
